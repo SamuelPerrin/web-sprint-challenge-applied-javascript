@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Card } from './card'
 
 const Tabs = (topics) => {
   // TASK 3
@@ -22,6 +23,27 @@ const Tabs = (topics) => {
     const topicDiv = document.createElement('div');
     topicDiv.classList.add('tab');
     topicDiv.textContent = topic;
+    topicDiv.addEventListener('click', e => {
+      // remove all existing cards from .cards-container
+      const cardsContainer = document.querySelector('.cards-container');
+      const cards = Array.from(cardsContainer.childNodes);
+      cards.forEach(card => {
+        cardsContainer.removeChild(card);
+      })
+
+      // add back cards that are on topic
+      axios
+        .get('https://lambda-times-api.herokuapp.com/articles')
+        .then(res => {
+          const topicsObj = res.data.articles;
+          for (let each in topicsObj) {
+            if (each.slice(0,4) === topic.slice(0,4)) {
+              topicsObj[each].forEach(article => cardsContainer.appendChild(Card(article)));
+            }
+          }
+        })
+        .catch(err => console.log(err));
+    })
     topicsDiv.appendChild(topicDiv);
   })
 
@@ -43,5 +65,7 @@ const tabsAppender = (selector) => {
     })
     .catch(err => console.log(err))
 }
+
+
 
 export { Tabs, tabsAppender }
