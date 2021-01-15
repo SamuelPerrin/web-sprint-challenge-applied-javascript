@@ -20,19 +20,22 @@ const Card = (article) => {
   // </div>
   //
   const card = document.createElement('div');
-  card.classList.add('card');
   const headline = document.createElement('div');
-  headline.classList.add('headline');
-  headline.textContent = article.headline;
   const author = document.createElement('div');
-  author.classList.add('author');
   const imgContainer = document.createElement('div');
-  imgContainer.classList.add('img-container');
   const img = document.createElement('img');
-  img.src = article.authorPhoto;
-  imgContainer.appendChild(img);
   const authorName = document.createElement('span');
-  authorName.textContent = article.authorName;
+
+  card.classList.add('card');
+  headline.classList.add('headline');
+  author.classList.add('author');
+  imgContainer.classList.add('img-container');
+
+  img.src = article.authorPhoto;
+  headline.textContent = article.headline;
+  authorName.textContent = `By ${article.authorName}`;
+  
+  imgContainer.appendChild(img);
   author.appendChild(imgContainer);
   author.appendChild(authorName);
   card.appendChild(headline);
